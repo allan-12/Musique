@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.exam.playmusique.PlaylistManager
-import com.exam.playmusique.R
 import com.exam.playmusique.adapter.SongAdapter
 import com.exam.playmusique.adapter.onSongItemClicked
 import com.exam.playmusique.databinding.FragmentPlaylistDetailBinding

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -5,18 +6,33 @@
 
     <fragment
         android:id="@+id/songListFrag"
-        android:name="com.exam.playmusique.ui.theme.SongListFrag" 
-        android:label="SongListFrag" />
+        android:name="com.exam.playmusique.ui.theme.SongListFrag"
+        android:label="SongListFrag">
         <action
-        android:id="@+id/action_songListFrag_to_playlistFrag"
-        app:destination="@id/playlistFrag" />
-    <fragment
-    android:id="@+id/playlistFrag"
-    android:name="com.exam.playmusique.ui.theme.PlaylistFrag"
-    android:label="Playlists" />
-    <fragment
-    android:id="@+id/playlistDetailFrag"
-    android:name="com.exam.playmusique.ui.theme.PlaylistDetailFrag"
-    android:label="Playlist Detail" />
+            android:id="@+id/action_songListFrag_to_playlistFrag"
+            app:destination="@id/playlistFrag" />
+        <!-- Argument pour recevoir la playlist -->
+        <argument
+            android:name="playlistSongs"
+            app:argType="com.exam.playmusique.modal.Song[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/playlistFrag"
+        android:name="com.exam.playmusique.ui.theme.PlaylistFrag"
+        android:label="Playlists">
+        <action
+            android:id="@+id/action_playlistFrag_to_songListFrag"
+            app:destination="@id/songListFrag" />
+        <action
+            android:id="@+id/action_playlistFrag_to_playlistDetailFrag"
+            app:destination="@id/playlistDetailFrag" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playlistDetailFrag"
+        android:name="com.exam.playmusique.ui.theme.PlaylistDetailFrag"
+        android:label="Playlist Detail" />
 </navigation>

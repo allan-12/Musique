@@ -1,15 +1,19 @@
 package com.exam.playmusique.ui.theme
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.exam.playmusique.MyApplication
 import com.exam.playmusique.PlaylistManager
 import com.exam.playmusique.R
 import com.exam.playmusique.adapter.PlaylistAdapter
 import com.exam.playmusique.databinding.FragmentPlaylistBinding
+import com.exam.playmusique.service.MusicService
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class PlaylistFrag : Fragment() {
@@ -37,7 +41,16 @@ class PlaylistFrag : Fragment() {
         adapter = PlaylistAdapter(
             playlistManager.getAllPlaylists(),
             onClick = { playlist ->
-                showPlaylistDetails(playlist)
+                // Démarrer la lecture de la playlist
+                val intent = Intent(requireContext(), MusicService::class.java).apply {
+                    action = MusicService.ACTION_PLAY
+                }
+                requireContext().startService(intent)
+                (requireActivity().application as MyApplication).musicPlayerManager.setPlaylistAndPlay(playlist.songs)
+
+                // Passer la playlist à SongListFrag via Safe Args
+                val action = PlaylistFragDirections.actionPlaylistFragToSongListFrag(playlist.songs.toTypedArray())
+                findNavController().navigate(action)
             },
             onDelete = { playlist ->
                 MaterialAlertDialogBuilder(requireContext())
@@ -75,13 +88,5 @@ class PlaylistFrag : Fragment() {
             }
             .setNegativeButton("Cancel", null)
             .show()
-    }
-
-    private fun showPlaylistDetails(playlist: PlaylistManager.Playlist) {
-        val fragment = PlaylistDetailFrag.newInstance(playlist.name)
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }

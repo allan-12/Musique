@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.exam.playmusique.MediaPlayerListener
 import com.exam.playmusique.MusicPlayerManager
 import com.exam.playmusique.MyApplication
@@ -41,6 +42,7 @@ class SongListFrag : Fragment(), onSongItemClicked, MediaPlayerListener {
     private lateinit var binding: FragmentSongListBinding
     private lateinit var viewModel: SongViewModel
     private val REQUEST_PERMISSION_CODE = 123
+    private val args: SongListFragArgs by navArgs() // Récupérer les arguments
 
     private lateinit var adapter: SongAdapter
     private var currentSongPosition: Int = -1
@@ -186,10 +188,18 @@ class SongListFrag : Fragment(), onSongItemClicked, MediaPlayerListener {
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun loadSongs() {
-        viewModel.showtheList(requireContext()).observe(viewLifecycleOwner, Observer {
-            adapter.setList(it ?: emptyList())
+        val playlistSongs = args.playlistSongs?.toList()
+        if (playlistSongs != null && playlistSongs.isNotEmpty()) {
+            // Afficher uniquement les chansons de la playlist
+            adapter.setList(playlistSongs)
             binding.rvSongList.adapter = adapter
-        })
+        } else {
+            // Sinon, afficher toutes les chansons
+            viewModel.showtheList(requireContext()).observe(viewLifecycleOwner, Observer { songs ->
+                adapter.setList(songs ?: emptyList())
+                binding.rvSongList.adapter = adapter
+            })
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
