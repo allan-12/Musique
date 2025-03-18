@@ -61,6 +61,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.media:media:1.7.0") // Pour MediaSessionCompat
     implementation("androidx.core:core:1.13.0") // Pour NotificationCompat
     implementation("androidx.databinding:databinding-runtime:8.2.2")

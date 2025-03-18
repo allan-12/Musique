@@ -1,27 +1,29 @@
-<!-- <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.PlayMusique" parent="android:Theme.Material.Light.NoActionBar" />
-</resources> -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-
+    <!-- Thème principal de l'application -->
     <style name="Theme.PlayMusique" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Primary brand color. -->
+        <!-- Primary brand color -->
         <item name="colorPrimary">#1DB954</item> <!-- Spotify green -->
-        <item name="colorPrimaryVariant">#1DB954</item> <!-- Spotify green (same as colorPrimary) -->
-        <item name="colorOnPrimary">#FFFFFF</item> <!-- White -->
+        <item name="colorPrimaryVariant">#1DB954</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
 
-        <!-- Secondary brand color. -->
+        <!-- Secondary brand color -->
         <item name="colorSecondary">#191414</item> <!-- Black -->
-        <item name="colorSecondaryVariant">#191414</item> <!-- Black (same as colorSecondary) -->
-        <item name="colorOnSecondary">#FFFFFF</item> <!-- White -->
+        <item name="colorSecondaryVariant">#191414</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
 
-        <!-- Status bar color. -->
+        <!-- Status bar color -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
-        <!-- Customize your theme here. -->
+        <!-- Fond par défaut -->
+        <item name="android:windowBackground">@color/splash_background_end</item>
+    </style>
+
+    <!-- Thème pour le splash screen (simplifié pour Android 11) -->
+    <style name="Theme.PlayMusique.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background_start</item>
+        <item name="android:statusBarColor">@color/splash_background_start</item>
     </style>
 
 </resources>
