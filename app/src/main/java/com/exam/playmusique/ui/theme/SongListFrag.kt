@@ -12,17 +12,21 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.exam.playmusique.MediaPlayerListener
 import com.exam.playmusique.MusicPlayerManager
 import com.exam.playmusique.MyApplication
+import com.exam.playmusique.PlaylistManager
 import com.exam.playmusique.R
 import com.exam.playmusique.adapter.SongAdapter
 import com.exam.playmusique.adapter.onSongItemClicked
@@ -152,8 +156,12 @@ class SongListFrag : Fragment(), onSongItemClicked, MediaPlayerListener {
         compactNext.setOnClickListener { handleNextClick() }
         expandedPrevious.setOnClickListener { handlePreviousClick() }
         compactPrevious.setOnClickListener { handlePreviousClick() }
-    }
 
+        // Ajout du listener pour naviguer vers PlaylistFrag
+        binding.btnPlaylists.setOnClickListener {
+            findNavController().navigate(R.id.action_songListFrag_to_playlistFrag)
+        }
+    }
     private fun hasPermissions(): Boolean {
         val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Manifest.permission.READ_MEDIA_AUDIO
@@ -234,6 +242,18 @@ class SongListFrag : Fragment(), onSongItemClicked, MediaPlayerListener {
         binding.expandedPlayerLayout.startAnimation(slideUpAnimation)
         binding.expandedPlayerLayout.visibility = View.VISIBLE
         updateUI()
+        val popup = PopupMenu(requireContext(), binding.rvSongList.getChildAt(position))
+        val playlists = PlaylistManager(requireContext()).getAllPlaylists()
+        playlists.forEachIndexed { index, playlist ->
+            popup.menu.add(0, index, 0, playlist.name)
+        }
+        popup.setOnMenuItemClickListener { item ->
+            val playlistName = playlists[item.itemId].name
+            PlaylistManager(requireContext()).addSongToPlaylist(playlistName, song)
+            Toast.makeText(requireContext(), "Added to $playlistName", Toast.LENGTH_SHORT).show()
+            true
+        }
+        popup.show()
     }
 
     override fun onSongCompletion() {

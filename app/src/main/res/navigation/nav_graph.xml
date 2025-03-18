@@ -7,5 +7,16 @@
         android:id="@+id/songListFrag"
         android:name="com.exam.playmusique.ui.theme.SongListFrag" 
         android:label="SongListFrag" />
+        <action
+        android:id="@+id/action_songListFrag_to_playlistFrag"
+        app:destination="@id/playlistFrag" />
+    <fragment
+    android:id="@+id/playlistFrag"
+    android:name="com.exam.playmusique.ui.theme.PlaylistFrag"
+    android:label="Playlists" />
+    <fragment
+    android:id="@+id/playlistDetailFrag"
+    android:name="com.exam.playmusique.ui.theme.PlaylistDetailFrag"
+    android:label="Playlist Detail" />
 
 </navigation>

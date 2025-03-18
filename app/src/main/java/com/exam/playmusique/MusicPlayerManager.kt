@@ -60,7 +60,7 @@ class MusicPlayerManager : MediaPlayer.OnCompletionListener {
         }
     }
 
-    fun pauseSong(playPause: ImageView) {
+    fun pauseSong(playPause: ImageView?) {
         try {
             if (mediaPlayer?.isPlaying == true) {
                 mediaPlayer?.pause()
@@ -105,8 +105,10 @@ class MusicPlayerManager : MediaPlayer.OnCompletionListener {
         }
     }
 
-    fun updatePlayPauseButtonUI(playPause: ImageView) {
-        playPause.setImageResource(if (isPlaying()) R.drawable.pause else R.drawable.play)
+    fun updatePlayPauseButtonUI(playPause: ImageView?) {
+        if (playPause != null) {
+            playPause.setImageResource(if (isPlaying()) R.drawable.pause else R.drawable.play)
+        }
     }
 
     fun animateSongNameScroll(textView: TextView) {
